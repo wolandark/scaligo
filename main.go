@@ -95,25 +95,10 @@ func main() {
 		{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
 	}
 
-	// x, y, h := centerWidth, 3, 15
-	// x, y, h := centerWidth, centerHeight, 15
-	// w := stringWidth + 1
-
-	// for i := 0; i < h-4; i++ {
-	// 	for j := 0; j < w; j++ {
-	// 		c := ' '
-	// 		if j == 0 || j == w-1 {
-	// 			c = '│'
-	// 		}
-	// 		s.SetContent(x+j, y+i, c, nil, style)
-	// 	}
-	// }
-
 	// draw frets only
 	for i := 0; i < lineCount; i++ {
 		for j := 0; j < fretHeight-4; j++ {
-			// s.SetContent(fretX+i*lineSpacing, fretY+j, '│', nil, style)
-			s.SetContent(centerWidth/2+i*lineSpacing, fretY+j, '│', nil, style)
+			s.SetContent(fretX+i*lineSpacing, fretY+j, '│', nil, style)
 		}
 	}
 
@@ -122,7 +107,6 @@ func main() {
 	// draw strings only
 	for i := 0; i < stringHeight; i++ {
 		for j := 0; j < stringWidth; j++ {
-			// s.SetContent(stringX+j, stringY+i*2, r, nil, style)
 			s.SetContent(stringX+j, stringY+i*2, '-', nil, style)
 		}
 	}
@@ -169,21 +153,10 @@ func main() {
 				s.SetContent(nx+i, ny, runes[i], nil, matchStyle)
 				s.SetContent(nx+i, ny, r, nil, matchStyle)
 			}
-
-			// 	for i := 0; i < len(runes); i++ {
-			// 		s.SetContent(30, 30, runes[i], nil, matchStyle)
-			// 	}
-
-			// 	for i := 0; i < len(runes); i++ {
-			// 		for j := 0; j < x; j++ {
-			// 			s.SetContent(x+1, y+i*2, runes[i], nil, style)
-			// 		}
-			// 	}
 		}
 	}
 
 	s.Show()
 	s.PollEvent()
 	s.PollEvent()
-
 }
