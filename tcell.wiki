@@ -1,0 +1,35 @@
+import "golang.org/x/term"
+
+func GetTerminalSize() (int, int) {
+	fd := int(os.Stdin.Fd())
+	width, height, err := term.GetSize(fd)
+	if err != nil {
+		fmt.Printf("Failed to obtain terminal size: %v\n", err)
+	}
+	return width, height
+}
+
+func CalcCenter() (int, int, int, int) {
+	w, h := GetTerminalSize()
+	cw := w / 2
+	ch := h / 2
+	return w, h, cw, ch
+}
+
+
+= Check SomeWhere To Exit If Terminal Is Too Small =
+termWidth, termHeight, centerWidth, centerHeight := CalcCenter()
+//-----------------------------------
+// Minimum  129 × 32 (columns × rows)
+//-----------------------------------
+if termWidth < 129 || termHeight < 32 {
+	fmt.Println("term too small, go fuck yourself!")
+
+	for i, r := range "Hello, World!" {
+		s.SetContent(centerWidth, centerHeight, r, nil, style)
+		i++
+	}
+	os.Exit(1)
+}
+//-----------------------------------
+//-----------------------------------
