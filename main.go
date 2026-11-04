@@ -15,9 +15,7 @@ import (
 func GetTerminalSize() (int, int) {
 	fd := int(os.Stdin.Fd())
 	width, height, err := term.GetSize(fd)
-
 	if err != nil {
-
 		fmt.Printf("Failed to obtain terminal size: %v\n", err)
 	}
 	return width, height
@@ -25,22 +23,20 @@ func GetTerminalSize() (int, int) {
 
 func GetScale(input string) ([]string, bool) {
 	key := strings.ToLower(strings.TrimSpace(input))
-
 	if alias, ok := scales.ScaleAliases[key]; ok {
 		key = alias
 	} else {
 		key = strings.ReplaceAll(key, " ", "_")
 	}
-
 	scale, ok := scales.Scales[key]
 	return scale, ok
 }
 
-func CalcCenter() (int, int) {
+func CalcCenter() (int, int, int, int) {
 	w, h := GetTerminalSize()
 	cw := w / 2
 	ch := h / 2
-	return cw, ch
+	return w, h, cw, ch
 }
 
 func main() {
@@ -77,7 +73,23 @@ func main() {
 
 	lineCount := 13
 	lineSpacing := 8
-	centerWidth, centerHeight := CalcCenter()
+	termWidth, termHeight, centerWidth, centerHeight := CalcCenter()
+
+	//-----------------------------------
+	// Minimum  129 × 32 (columns × rows)
+	//-----------------------------------
+	if termWidth < 129 || termHeight < 32 {
+		fmt.Println("term too small, go fuck yourself!")
+
+		for i, r := range "Hello, World!" {
+			s.SetContent(centerWidth, centerHeight, r, nil, style)
+			i++
+		}
+		os.Exit(1)
+	}
+	//-----------------------------------
+	//-----------------------------------
+
 	x := centerWidth
 	stringY, stringHeight := centerHeight, 6
 	stringWidth := (lineCount - 1) * lineSpacing
@@ -102,16 +114,12 @@ func main() {
 		}
 	}
 
-	// s.Show()
-
 	// draw strings only
 	for i := 0; i < stringHeight; i++ {
 		for j := 0; j < stringWidth; j++ {
 			s.SetContent(stringX+j, stringY+i*2, '-', nil, style)
 		}
 	}
-
-	// s.Show()
 
 	for i := 0; i < len(scale); i++ {
 		for j := 0; j < len(scale[i]); j++ {
