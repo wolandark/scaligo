@@ -22,7 +22,90 @@ func GetScale(input string) ([]string, bool) {
 	return scale, ok
 }
 
+// ======================================================================================
+// Constants
+// ======================================================================================
+const (
+	fretSpacing   = 8
+	stringSpacing = 2
+
+	noteRune     = '⬤'
+	sharpRune    = '⬤'
+	inlayRune    = '◆'
+	fretRune     = '│'
+	stringRune   = '─'
+	junctionRune = '┼'
+	tRune        = '┬'
+	revTRune     = '┴'
+)
+
+// ======================================================================================
+// Styles
+// ======================================================================================
+var (
+	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
+	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
+	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorGold)
+	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
+	matchSharpStyle = tcell.StyleDefault.Foreground(tcell.ColorRed)
+	inlayStyle      = tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
+)
+
+// ======================================================================================
+// Fretboard data
+// ======================================================================================
+var fretboard_e = [][]string{
+	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
+	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+}
+
 func main() {
+	//======================================================================================
+	// tcell screen
+	//======================================================================================
+	s, err := tcell.NewScreen()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err := s.Init(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer s.Fini()
+
+	//======================================================================================
+	// Dimensions and positioning
+	//======================================================================================
+	termWidth, termHeight := s.Size()
+
+	frets := len(fretboard_e[0])
+	str := len(fretboard_e)
+
+	boardWidth := (frets - 1) * fretSpacing
+	boardHeight := (str-1)*stringSpacing + 1
+
+	x := (termWidth - boardWidth) / 2
+	y := (termHeight - boardHeight) / 2
+
+	//======================================================================================
+	// reject small terminal
+	//======================================================================================
+	if termWidth < 129 || termHeight < 32 {
+		fmt.Println("term too small, go fuck yourself!")
+
+		for i, r := range "Hello, World!" {
+			s.SetContent(x, y, r, nil, style)
+			i++
+		}
+		os.Exit(1)
+	}
+
 	//======================================================================================
 	// flag section
 	//======================================================================================
@@ -51,57 +134,6 @@ func main() {
 	}
 
 	//======================================================================================
-	// tcell screen
-	//======================================================================================
-	s, _ := tcell.NewScreen()
-	s.Init()
-	defer s.Fini()
-
-	//======================================================================================
-	// Vars
-	//======================================================================================
-	style := tcell.StyleDefault.Foreground(tcell.ColorWhite)
-	stringStyle := tcell.StyleDefault.Foreground(tcell.ColorSilver)
-	fretStyle := tcell.StyleDefault.Foreground(tcell.ColorGold)
-	matchStyle := tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
-	matchSharpStyle := tcell.StyleDefault.Foreground(tcell.ColorRed)
-	inlayStyle := tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
-
-	noteRune := '〇'
-	sharpRune := 'Δ'
-	inlayRune := '◆'
-	fretRune := '│'
-	stringRune := '─'
-	junctionRune := '┼'
-	tRune := '┬'
-	revTRune := '┴'
-
-	termWidth, termHeight := s.Size() // get terminal sizes from tcell not x/terminal
-
-	fretboard_e := [][]string{
-		{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-		{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-		{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-		{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-		{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-		{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	}
-
-	const (
-		fretSpacing   = 8
-		stringSpacing = 2
-	)
-
-	frets := len(fretboard_e[0]) // cause fretboard is a 2d slice already the size
-	strings := len(fretboard_e)  // of a fretboard
-
-	boardWidth := (frets - 1) * fretSpacing
-	boardHeight := (strings-1)*stringSpacing + 1
-
-	x := (termWidth - boardWidth) / 2
-	y := (termHeight - boardHeight) / 2
-
-	//======================================================================================
 	// draw loops
 	//======================================================================================
 	// draw inlays
@@ -117,6 +149,7 @@ func main() {
 			}
 		}
 	}
+
 	//======================================================================================
 	// draw frets only
 	//======================================================================================
@@ -129,7 +162,7 @@ func main() {
 	//======================================================================================
 	// draw strings only
 	//======================================================================================
-	for i := 0; i < strings; i++ {
+	for i := 0; i < str; i++ {
 		for j := 0; j < boardWidth; j++ {
 			s.SetContent(x+j, y+i*stringSpacing, stringRune, nil, stringStyle)
 		}
@@ -139,7 +172,7 @@ func main() {
 	// junctions
 	//======================================================================================
 	for i := 0; i < frets; i++ {
-		for j := 0; j < strings; j++ {
+		for j := 0; j < str; j++ {
 			nx := x + i*fretSpacing
 			ny := y + j*stringSpacing
 
@@ -147,7 +180,7 @@ func main() {
 
 			if j == 0 {
 				r = tRune
-			} else if j == strings-1 {
+			} else if j == str-1 {
 				r = revTRune
 			}
 
