@@ -316,7 +316,7 @@ func main() {
 				scale, _, title = GetScale("f_sharp_min")
 
 			// G
-			case "G", "fM":
+			case "G", "gM":
 				scale, _, title = GetScale("g_maj")
 			case "gm":
 				scale, _, title = GetScale("g_min")
@@ -326,7 +326,7 @@ func main() {
 				scale, _, title = GetScale("g_sharp_min")
 
 			// A
-			case "A", "fM":
+			case "A", "aM":
 				scale, _, title = GetScale("a_maj")
 			case "am":
 				scale, _, title = GetScale("a_min")
@@ -336,18 +336,14 @@ func main() {
 				scale, _, title = GetScale("a_sharp_min")
 
 			// B
-			case "B", "fM":
+			case "B", "bM":
 				scale, _, title = GetScale("b_maj")
 			case "bm":
 				scale, _, title = GetScale("b_min")
 
+				input = ""
 
-
-
-
-
-			input = ""
-
+			}
 		case *tcell.EventResize:
 			s.Sync()
 		}
