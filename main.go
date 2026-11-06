@@ -46,6 +46,7 @@ const (
 // ======================================================================================
 var (
 	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
+	scaleName       = tcell.StyleDefault.Foreground(tcell.ColorGreen)
 	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
 	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorGold)
 	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
@@ -205,8 +206,16 @@ func main() {
 		//======================================================================================
 		// draw scale notes in abcd
 		//======================================================================================
-
 		offset := 0
+		title = strings.ReplaceAll(title, "maj", "Major")
+		title = strings.ReplaceAll(title, "min", "Minor")
+		title = strings.ReplaceAll(title, "sharp", "Sharp")
+		title = strings.ToUpper(title[:1]) + title[1:]
+		title = strings.ReplaceAll(title, "_", " ")
+		for i := 0; i < len(title); i++ {
+			s.SetContent(x+i, y-5, rune(title[i]), nil, scaleName)
+		}
+
 		for i := 0; i < len(scale); i++ {
 			for j := 0; j < len(scale[i]); j++ {
 				a := rune(scale[i][j])
@@ -214,9 +223,6 @@ func main() {
 				offset++
 			}
 			offset++
-			for i := 0; i < len(title); i++ {
-				s.SetContent(i, 0, rune(title[i]), nil, style)
-			}
 		}
 
 		//======================================================================================
@@ -262,7 +268,8 @@ func main() {
 
 		switch ev := s.PollEvent().(type) {
 		case *tcell.EventKey:
-			if ev.Key() == tcell.KeyEscape || ev.Rune() == 'q' {
+			// if ev.Key() == tcell.KeyEscape || ev.Rune() == 'q' {
+			if ev.Rune() == 'q' {
 				return
 			}
 
@@ -282,67 +289,88 @@ func main() {
 			// C
 			case "C", "cM":
 				scale, _, title = GetScale("c_maj")
+				input = ""
 			case "cm":
 				scale, _, title = GetScale("c_min")
+				input = ""
 			case "C#":
 				scale, _, title = GetScale("c_sharp_maj")
+				input = ""
 			case "c#m":
 				scale, _, title = GetScale("c_sharp_min")
+				input = ""
 
 			// D
 			case "D", "dM":
 				scale, _, title = GetScale("d_maj")
+				input = ""
 			case "dm":
 				scale, _, title = GetScale("d_min")
+				input = ""
 			case "D#":
 				scale, _, title = GetScale("d_sharp_maj")
+				input = ""
 			case "d#m":
 				scale, _, title = GetScale("d_sharp_min")
+				input = ""
 
 			// E
 			case "E", "eM":
 				scale, _, title = GetScale("e_maj")
+				input = ""
 			case "em":
 				scale, _, title = GetScale("e_min")
+				input = ""
 
 			// F
 			case "F", "fM":
 				scale, _, title = GetScale("f_maj")
+				input = ""
 			case "fm":
 				scale, _, title = GetScale("f_min")
+				input = ""
 			case "F#":
 				scale, _, title = GetScale("f_sharp_maj")
+				input = ""
 			case "f#m":
 				scale, _, title = GetScale("f_sharp_min")
+				input = ""
 
 			// G
 			case "G", "gM":
 				scale, _, title = GetScale("g_maj")
+				input = ""
 			case "gm":
 				scale, _, title = GetScale("g_min")
+				input = ""
 			case "G#":
 				scale, _, title = GetScale("g_sharp_maj")
+				input = ""
 			case "g#m":
 				scale, _, title = GetScale("g_sharp_min")
+				input = ""
 
 			// A
 			case "A", "aM":
 				scale, _, title = GetScale("a_maj")
+				input = ""
 			case "am":
 				scale, _, title = GetScale("a_min")
+				input = ""
 			case "A#":
 				scale, _, title = GetScale("a_sharp_maj")
+				input = ""
 			case "a#m":
 				scale, _, title = GetScale("a_sharp_min")
+				input = ""
 
 			// B
 			case "B", "bM":
 				scale, _, title = GetScale("b_maj")
+				input = ""
 			case "bm":
 				scale, _, title = GetScale("b_min")
-
 				input = ""
-
 			}
 		case *tcell.EventResize:
 			s.Sync()
