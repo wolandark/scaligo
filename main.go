@@ -3,26 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/gdamore/tcell/v2"
+	"gs/keys"
 	"gs/scales"
 	"os"
 	"slices"
 	"strings"
-	"time"
-
-	"github.com/gdamore/tcell/v2"
 )
-
-func GetScale(input string) ([]string, bool, string) {
-	key := strings.ToLower(strings.TrimSpace(input))
-	if alias, ok := scales.ScaleAliases[key]; ok {
-		key = alias
-	} else {
-		key = strings.ReplaceAll(key, " ", "_")
-	}
-	scale, ok := scales.Scales[key]
-	title := key
-	return scale, ok, title
-}
 
 // ======================================================================================
 // Constants
@@ -66,9 +53,6 @@ var fretboard_e = [][]string{
 	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
 }
 
-var input string
-var timer *time.Timer
-
 func main() {
 	//======================================================================================
 	// tcell screen
@@ -104,7 +88,7 @@ func main() {
 		return
 	}
 
-	scale, exists, title := GetScale(*s_flag)
+	scale, exists, title := scales.GetScale(*s_flag)
 
 	if !exists {
 		fmt.Println("Unknown scale:", *s_flag)
@@ -265,115 +249,15 @@ func main() {
 			}
 		}
 		s.Show()
+		newScale, newTitle, running := keys.ReadKeys(s)
 
-		switch ev := s.PollEvent().(type) {
-		case *tcell.EventKey:
-			// if ev.Key() == tcell.KeyEscape || ev.Rune() == 'q' {
-			if ev.Rune() == 'q' {
-				return
-			}
+		if !running {
+			break
+		}
 
-			input += string(ev.Rune())
-
-			if timer != nil {
-				timer.Stop()
-			}
-
-			timer = time.AfterFunc(500*time.Millisecond, func() {
-				s.PostEvent(tcell.NewEventInterrupt(nil))
-			})
-
-		case *tcell.EventInterrupt:
-			switch input {
-
-			// C
-			case "C", "cM":
-				scale, _, title = GetScale("c_maj")
-				input = ""
-			case "cm":
-				scale, _, title = GetScale("c_min")
-				input = ""
-			case "C#":
-				scale, _, title = GetScale("c_sharp_maj")
-				input = ""
-			case "c#m":
-				scale, _, title = GetScale("c_sharp_min")
-				input = ""
-
-			// D
-			case "D", "dM":
-				scale, _, title = GetScale("d_maj")
-				input = ""
-			case "dm":
-				scale, _, title = GetScale("d_min")
-				input = ""
-			case "D#":
-				scale, _, title = GetScale("d_sharp_maj")
-				input = ""
-			case "d#m":
-				scale, _, title = GetScale("d_sharp_min")
-				input = ""
-
-			// E
-			case "E", "eM":
-				scale, _, title = GetScale("e_maj")
-				input = ""
-			case "em":
-				scale, _, title = GetScale("e_min")
-				input = ""
-
-			// F
-			case "F", "fM":
-				scale, _, title = GetScale("f_maj")
-				input = ""
-			case "fm":
-				scale, _, title = GetScale("f_min")
-				input = ""
-			case "F#":
-				scale, _, title = GetScale("f_sharp_maj")
-				input = ""
-			case "f#m":
-				scale, _, title = GetScale("f_sharp_min")
-				input = ""
-
-			// G
-			case "G", "gM":
-				scale, _, title = GetScale("g_maj")
-				input = ""
-			case "gm":
-				scale, _, title = GetScale("g_min")
-				input = ""
-			case "G#":
-				scale, _, title = GetScale("g_sharp_maj")
-				input = ""
-			case "g#m":
-				scale, _, title = GetScale("g_sharp_min")
-				input = ""
-
-			// A
-			case "A", "aM":
-				scale, _, title = GetScale("a_maj")
-				input = ""
-			case "am":
-				scale, _, title = GetScale("a_min")
-				input = ""
-			case "A#":
-				scale, _, title = GetScale("a_sharp_maj")
-				input = ""
-			case "a#m":
-				scale, _, title = GetScale("a_sharp_min")
-				input = ""
-
-			// B
-			case "B", "bM":
-				scale, _, title = GetScale("b_maj")
-				input = ""
-			case "bm":
-				scale, _, title = GetScale("b_min")
-				input = ""
-			}
-		case *tcell.EventResize:
-			s.Sync()
+		if newScale != nil {
+			scale = newScale
+			title = newTitle
 		}
 	}
 }

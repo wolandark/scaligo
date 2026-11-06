@@ -1,5 +1,19 @@
 package scales
 
+import "strings"
+
+func GetScale(input string) ([]string, bool, string) {
+	key := strings.ToLower(strings.TrimSpace(input))
+	if alias, ok := ScaleAliases[key]; ok {
+		key = alias
+	} else {
+		key = strings.ReplaceAll(key, " ", "_")
+	}
+	scale, ok := Scales[key]
+	title := key
+	return scale, ok, title
+}
+
 var ScaleAliases = map[string]string{
 	"am":      "a_min",
 	"amin":    "a_min",
