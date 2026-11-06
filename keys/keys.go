@@ -33,88 +33,88 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 
 		// C
 		case "C", "cM":
-			scale, _, title = scales.GetScale("c_maj")
+			scale, _, title = scales.GetScale("C_Major")
 			input = ""
 		case "cm":
-			scale, _, title = scales.GetScale("c_min")
+			scale, _, title = scales.GetScale("C_Minor")
 			input = ""
 		case "C#":
-			scale, _, title = scales.GetScale("c_sharp_maj")
+			scale, _, title = scales.GetScale("C_Sharp_Major")
 			input = ""
 		case "c#m":
-			scale, _, title = scales.GetScale("c_sharp_min")
+			scale, _, title = scales.GetScale("C_Sharp_Minor")
 			input = ""
 
 			// D
 		case "D", "dM":
-			scale, _, title = scales.GetScale("d_maj")
+			scale, _, title = scales.GetScale("D_Major")
 			input = ""
 		case "dm":
-			scale, _, title = scales.GetScale("d_min")
+			scale, _, title = scales.GetScale("D_Minor")
 			input = ""
 		case "D#":
-			scale, _, title = scales.GetScale("d_sharp_maj")
+			scale, _, title = scales.GetScale("D_Sharp_Major")
 			input = ""
 		case "d#m":
-			scale, _, title = scales.GetScale("d_sharp_min")
+			scale, _, title = scales.GetScale("D_Sharp_Minor")
 			input = ""
 
 			// E
 		case "E", "eM":
-			scale, _, title = scales.GetScale("e_maj")
+			scale, _, title = scales.GetScale("E_Major")
 			input = ""
 		case "em":
-			scale, _, title = scales.GetScale("e_min")
+			scale, _, title = scales.GetScale("E_Minor")
 			input = ""
 
 			// F
 		case "F", "fM":
-			scale, _, title = scales.GetScale("f_maj")
+			scale, _, title = scales.GetScale("F_Major")
 			input = ""
 		case "fm":
-			scale, _, title = scales.GetScale("f_min")
+			scale, _, title = scales.GetScale("F_Minor")
 			input = ""
 		case "F#":
-			scale, _, title = scales.GetScale("f_sharp_maj")
+			scale, _, title = scales.GetScale("F_Sharp_Major")
 			input = ""
 		case "f#m":
-			scale, _, title = scales.GetScale("f_sharp_min")
+			scale, _, title = scales.GetScale("F_Sharp_Minor")
 			input = ""
 
 			// G
 		case "G", "gM":
-			scale, _, title = scales.GetScale("g_maj")
+			scale, _, title = scales.GetScale("G_Major")
 			input = ""
 		case "gm":
-			scale, _, title = scales.GetScale("g_min")
+			scale, _, title = scales.GetScale("G_Minor")
 			input = ""
 		case "G#":
-			scale, _, title = scales.GetScale("g_sharp_maj")
+			scale, _, title = scales.GetScale("G_Sharp_Major")
 			input = ""
 		case "g#m":
-			scale, _, title = scales.GetScale("g_sharp_min")
+			scale, _, title = scales.GetScale("G_Sharp_Minor")
 			input = ""
 
 			// A
 		case "A", "aM":
-			scale, _, title = scales.GetScale("a_maj")
+			scale, _, title = scales.GetScale("A_Major")
 			input = ""
 		case "am":
-			scale, _, title = scales.GetScale("a_min")
+			scale, _, title = scales.GetScale("A_Minor")
 			input = ""
 		case "A#":
-			scale, _, title = scales.GetScale("a_sharp_maj")
+			scale, _, title = scales.GetScale("A_Sharp_Major")
 			input = ""
 		case "a#m":
-			scale, _, title = scales.GetScale("a_sharp_min")
+			scale, _, title = scales.GetScale("A_Sharp_Minor")
 			input = ""
 
 			// B
 		case "B", "bM":
-			scale, _, title = scales.GetScale("b_maj")
+			scale, _, title = scales.GetScale("B_Major")
 			input = ""
 		case "bm":
-			scale, _, title = scales.GetScale("b_min")
+			scale, _, title = scales.GetScale("B_Minor")
 			input = ""
 		}
 

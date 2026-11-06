@@ -191,10 +191,10 @@ func main() {
 		// draw scale notes in abcd
 		//======================================================================================
 		offset := 0
-		title = strings.ReplaceAll(title, "maj", "Major")
-		title = strings.ReplaceAll(title, "min", "Minor")
-		title = strings.ReplaceAll(title, "sharp", "Sharp")
-		title = strings.ToUpper(title[:1]) + title[1:]
+		// title = strings.ReplaceAll(title, "maj", "Major")
+		// title = strings.ReplaceAll(title, "min", "Minor")
+		// title = strings.ReplaceAll(title, "sharp", "Sharp")
+		// title = strings.ToUpper(title[:1]) + title[1:]
 		title = strings.ReplaceAll(title, "_", " ")
 		for i := 0; i < len(title); i++ {
 			s.SetContent(x+i, y-5, rune(title[i]), nil, scaleName)
@@ -249,8 +249,9 @@ func main() {
 			}
 		}
 		s.Show()
-		newScale, newTitle, running := keys.ReadKeys(s)
 
+		// read keys
+		newScale, newTitle, running := keys.ReadKeys(s)
 		if !running {
 			break
 		}
