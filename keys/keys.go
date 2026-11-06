@@ -24,7 +24,7 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 			timer.Stop()
 		}
 
-		timer = time.AfterFunc(500*time.Millisecond, func() {
+		timer = time.AfterFunc(1000*time.Millisecond, func() {
 			s.PostEvent(tcell.NewEventInterrupt(nil))
 		})
 
@@ -108,6 +108,18 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 		case "a#m":
 			scale, _, title = scales.GetScale("A_Sharp_Minor")
 			input = ""
+		case "amp":
+			scale, _, title = scales.GetScale("A_Minor_Pentatonic")
+			input = ""
+		case "aMp":
+			scale, _, title = scales.GetScale("A_Major_Pentatonic")
+			input = ""
+		case "ampb":
+			scale, _, title = scales.GetScale("A_Minor_Pentatonic_Blues")
+			input = ""
+		case "aMpb":
+			scale, _, title = scales.GetScale("A_Major_Pentatonic_Blues")
+			input = ""
 
 			// B
 		case "B", "bM":
@@ -117,6 +129,8 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 			scale, _, title = scales.GetScale("B_Minor")
 			input = ""
 		}
+
+		input = ""
 
 		if title != "" {
 			return scale, title, true
