@@ -1,3 +1,3 @@
 package scales
 
-var AMajorPentatonic = []string{"A", "C#", "D", "E", "F#"}
+var AMajorPentatonic = []string{"A", "B", "C#", "E", "F#"}
