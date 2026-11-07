@@ -76,28 +76,15 @@ func main() {
 	//======================================================================================
 	// flag section
 	//======================================================================================
-	s_flag := flag.String("s", "", "scale")
+	// s_flag := flag.String("s", "", "scale")
+	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") //default scale if no -s
 	flag.Parse()
-
-	provided := false
-
-	flag.Visit(func(f *flag.Flag) {
-		if f.Name == "s" {
-			provided = true
-		}
-	})
-
-	if !provided {
-		fmt.Println("NO SCALE PROVIDED!")
-		return
-	}
 
 	scale, exists, title := scales.GetScale(*s_flag)
 
 	if !exists {
 		fmt.Println("Unknown scale:", *s_flag)
 		os.Exit(1)
-		return
 	}
 
 	//======================================================================================

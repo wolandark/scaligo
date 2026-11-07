@@ -5,7 +5,7 @@ This project is a wip and is NOT ai assisted. In other words, this is not slop, 
 
 
 # Usage
-clone and build the project. 
+clone and build the project using the `build.sh` script. Run the binary from your shell and press 'h' for help. 
 
 # The Name
 Somewhat inspired by skeligrow potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
