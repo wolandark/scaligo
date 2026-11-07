@@ -11,11 +11,14 @@ var title string
 var timer *time.Timer
 var scale []string
 
-func ReadKeys(s tcell.Screen) ([]string, string, bool) {
+func ReadKeys(s tcell.Screen) ([]string, string, bool, bool) {
 	switch ev := s.PollEvent().(type) {
 	case *tcell.EventKey:
 		if ev.Rune() == 'q' {
-			return nil, "", false
+			return nil, "", false, false
+		}
+		if ev.Rune() == 'h' {
+			return nil, "", true, true
 		}
 
 		input += string(ev.Rune())
@@ -30,7 +33,6 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 
 	case *tcell.EventInterrupt:
 		switch input {
-
 		// C
 		case "C", "cM":
 			scale, _, title = scales.GetScale("C_Major")
@@ -265,11 +267,11 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool) {
 		input = ""
 
 		if title != "" {
-			return scale, title, true
+			return scale, title, false, true
 		}
 
 	case *tcell.EventResize:
 		s.Sync()
 	}
-	return nil, "", true
+	return nil, "", false, true
 }
