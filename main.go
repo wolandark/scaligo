@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"gs/help"
-	"gs/keys"
-	"gs/scales"
+	"scaligo/help"
+	"scaligo/keys"
+	"scaligo/scales"
 
 	"os"
 	"slices"

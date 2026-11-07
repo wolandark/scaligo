@@ -2,7 +2,7 @@ package keys
 
 import (
 	"github.com/gdamore/tcell/v2"
-	"gs/scales"
+	"scaligo/scales"
 	"time"
 )
 
