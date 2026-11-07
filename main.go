@@ -128,8 +128,9 @@ func main() {
 			}
 			s.SetContent(x, y, '!', nil, tcell.StyleDefault)
 
-			os.Exit(1)
 			s.Clear()
+			defer s.Fini()
+			return
 		}
 
 		//======================================================================================
