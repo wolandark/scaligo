@@ -53,17 +53,17 @@ func ShowHelp(s tcell.Screen, termWidth int, termHeight int) {
 		}
 		// border
 		for x := bx + 1; x < bx+bw-1; x++ {
-			s.SetContent(x, by, '─', nil, boxStyle)
-			s.SetContent(x, by+bh-1, '─', nil, boxStyle)
+			s.SetContent(x, by, '═', nil, boxStyle)
+			s.SetContent(x, by+bh-1, '═', nil, boxStyle)
 		}
 		for y := by + 1; y < by+bh-1; y++ {
-			s.SetContent(bx, y, '│', nil, boxStyle)
-			s.SetContent(bx+bw-1, y, '│', nil, boxStyle)
+			s.SetContent(bx, y, '║', nil, boxStyle)
+			s.SetContent(bx+bw-1, y, '║', nil, boxStyle)
 		}
-		s.SetContent(bx, by, '┌', nil, boxStyle)
-		s.SetContent(bx+bw-1, by, '┐', nil, boxStyle)
-		s.SetContent(bx, by+bh-1, '└', nil, boxStyle)
-		s.SetContent(bx+bw-1, by+bh-1, '┘', nil, boxStyle)
+		s.SetContent(bx, by, '╔', nil, boxStyle)
+		s.SetContent(bx+bw-1, by, '╗', nil, boxStyle)
+		s.SetContent(bx, by+bh-1, '╚', nil, boxStyle)
+		s.SetContent(bx+bw-1, by+bh-1, '╝', nil, boxStyle)
 
 		// text — same background as the fill, so no stripes
 		for i, line := range helpLines {
