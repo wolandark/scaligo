@@ -23,9 +23,6 @@ const (
 	fretSpacing   = 8
 	stringSpacing = 2
 
-	noteRune     = '⬤'
-	sharpRune    = '⬤'
-	inlayRune    = '◆'
 	fretRune     = '│'
 	stringRune   = '─'
 	junctionRune = '┼'
@@ -40,10 +37,13 @@ var (
 	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
 	scaleName       = tcell.StyleDefault.Foreground(tcell.ColorGreen)
 	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
-	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorGold)
+	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorLightYellow)
 	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
 	matchSharpStyle = tcell.StyleDefault.Foreground(tcell.ColorRed)
 	inlayStyle      = tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
+	noteRune        = '⬤'
+	sharpRune       = '⬤'
+	inlayRune       = '◆'
 )
 
 // ======================================================================================
@@ -68,7 +68,49 @@ func main() {
 	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
 	a_flag := flag.Bool("a", false, "list abbreviations")     // list scale aliases
 	h_flag := flag.Bool("h", false, "commandline help")       // obviously prints help
+	e_flag := flag.Bool("e", false, "use emojis")
+	c_flag := flag.Bool("c", false, "customize colors")
+
+	c_style := flag.String("style", "", "Fret color (hex)")
+	c_scaleName := flag.String("scalename", "", "Fret color (hex)")
+	c_fretStyle := flag.String("fretstyle", "", "Fret color (hex)")
+	c_stringStyle := flag.String("stringstyle", "", "String color (hex)")
+	c_matchStyle := flag.String("matchstyle", "", "Match color (hex)")
+	c_matchSharpStyle := flag.String("matchsharpstyle", "", "Match color (hex)")
+	c_inlayStyle := flag.String("inlaystyle", "", "Inlay color (hex)")
+
 	flag.Parse()
+
+	if *c_flag {
+		if *c_style != "" {
+			style = tcell.StyleDefault.Foreground(tcell.GetColor(*c_style))
+		}
+		if *c_scaleName != "" {
+			scaleName = tcell.StyleDefault.Foreground(tcell.GetColor(*c_scaleName))
+		}
+		if *c_matchSharpStyle != "" {
+			matchSharpStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_matchSharpStyle))
+		}
+		if *c_fretStyle != "" {
+			fretStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_fretStyle))
+		}
+		if *c_stringStyle != "" {
+			stringStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_stringStyle))
+		}
+		if *c_matchStyle != "" {
+			matchStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_matchStyle))
+		}
+		if *c_inlayStyle != "" {
+			inlayStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_inlayStyle))
+		}
+	}
+
+	if *e_flag {
+		noteRune = '🟢'
+		sharpRune = '🔴'
+		inlayRune = '💠'
+
+	}
 
 	if *h_flag {
 		fmt.Println("Use ./scaligo to enter interactive visualizer")
