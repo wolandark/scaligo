@@ -79,6 +79,10 @@ func main() {
 	c_matchSharpStyle := flag.String("matchsharpstyle", "", "Match color (hex)")
 	c_inlayStyle := flag.String("inlaystyle", "", "Inlay color (hex)")
 
+	c_noteRune := flag.String("noterune", "", "note rune")
+	c_sharpRune := flag.String("sharprune", "", "sharp note rune")
+	c_inlayRune := flag.String("inlayrune", "", "inlay rune")
+
 	flag.Parse()
 
 	if *c_flag {
@@ -102,6 +106,15 @@ func main() {
 		}
 		if *c_inlayStyle != "" {
 			inlayStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_inlayStyle))
+		}
+		if *c_noteRune != "" {
+			noteRune = []rune(*c_noteRune)[0]
+		}
+		if *c_inlayRune != "" {
+			inlayRune = []rune(*c_inlayRune)[0]
+		}
+		if *c_sharpRune != "" {
+			sharpRune = []rune(*c_sharpRune)[0]
 		}
 	}
 
