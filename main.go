@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"maps"
 
 	"scaligo/help"
 	"scaligo/keys"
@@ -59,6 +60,62 @@ var fretboard_e = [][]string{
 
 func main() {
 	//======================================================================================
+	// flag section
+	//======================================================================================
+	// s_flag := flag.String("s", "", "scale")
+
+	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") //default scale if no -s
+	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
+	a_flag := flag.Bool("a", false, "list abbreviations")     // list scale aliases
+	h_flag := flag.Bool("h", false, "commandline help")       // obviously prints help
+	flag.Parse()
+
+	if *h_flag {
+		fmt.Println("Use ./scaligo to enter interactive visualizer")
+		fmt.Println()
+		fmt.Println("Flags:")
+		fmt.Println("\t-l : list all known scales")
+		fmt.Println("\t-a : list all known scales and their aliases (shortcuts in interactive mode)")
+		fmt.Println("\t-s : use -s to start scaligo with a known scale. Example: <scaligo -s am>")
+		fmt.Println("\t-h : this help menu")
+		fmt.Println()
+		fmt.Println("Quick Start:")
+		fmt.Println("\tIn interactive mode, press any sequence from the -a flag to swtich scales")
+		fmt.Println("\tPress <h> to read the help and follow along")
+		return
+	}
+
+	if *a_flag {
+		for i, k := range slices.Sorted(maps.Keys(scales.ScaleMap)) {
+			v := scales.ScaleMap[k]
+			fmt.Printf("\n%d - %s -%s", i, k, v)
+			if (i+1)%4 == 0 {
+				fmt.Println()
+			}
+		}
+		fmt.Println()
+		return
+	}
+
+	if *l_flag {
+		for i, name := range slices.Sorted(maps.Keys(scales.Scales)) {
+			fmt.Printf("%-35s", name)
+			if (i+1)%4 == 0 {
+				fmt.Println()
+			}
+		}
+		fmt.Println()
+		return
+	}
+
+	scale, exists, title := scales.GetScale(*s_flag)
+
+	if !exists {
+		fmt.Println("Unknown scale:", *s_flag)
+		os.Exit(1)
+	}
+
+	//======================================================================================
 	// tcell screen
 	//======================================================================================
 	s, err := tcell.NewScreen()
@@ -72,20 +129,6 @@ func main() {
 		return
 	}
 	defer s.Fini()
-
-	//======================================================================================
-	// flag section
-	//======================================================================================
-	// s_flag := flag.String("s", "", "scale")
-	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") //default scale if no -s
-	flag.Parse()
-
-	scale, exists, title := scales.GetScale(*s_flag)
-
-	if !exists {
-		fmt.Println("Unknown scale:", *s_flag)
-		os.Exit(1)
-	}
 
 	//======================================================================================
 	// main loop || game loop
@@ -246,13 +289,19 @@ func main() {
 		s.Show()
 
 		// read keys
-		newScale, newTitle, toggleOverlay, running := keys.ReadKeys(s)
+		newScale, newTitle, toggleOverlay, toggleShortcuts, running := keys.ReadKeys(s)
 		if !running {
 			break
 		}
 
 		if toggleOverlay {
 			help.Toggle()
+			toggleShortcuts = false
+		}
+
+		if toggleShortcuts {
+			help.ToggleShortcuts()
+			toggleOverlay = false
 		}
 
 		if newScale != nil {

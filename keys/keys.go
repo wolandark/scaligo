@@ -1,9 +1,10 @@
 package keys
 
 import (
-	"github.com/gdamore/tcell/v2"
 	"scaligo/scales"
 	"time"
+
+	"github.com/gdamore/tcell/v2"
 )
 
 var input string
@@ -11,14 +12,19 @@ var title string
 var timer *time.Timer
 var scale []string
 
-func ReadKeys(s tcell.Screen) ([]string, string, bool, bool) {
+func ReadKeys(s tcell.Screen) ([]string, string, bool, bool, bool) {
 	switch ev := s.PollEvent().(type) {
 	case *tcell.EventKey:
 		if ev.Rune() == 'q' {
-			return nil, "", false, false
+			return nil, "", false, false, false
 		}
+
 		if ev.Rune() == 'h' {
-			return nil, "", true, true
+			return nil, "", true, false, true
+		}
+
+		if ev.Rune() == 's' {
+			return nil, "", false, true, true
 		}
 
 		input += string(ev.Rune())
@@ -267,11 +273,11 @@ func ReadKeys(s tcell.Screen) ([]string, string, bool, bool) {
 		input = ""
 
 		if title != "" {
-			return scale, title, false, true
+			return scale, title, false, false, true
 		}
 
 	case *tcell.EventResize:
 		s.Sync()
 	}
-	return nil, "", false, true
+	return nil, "", false, false, true
 }

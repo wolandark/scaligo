@@ -1,6 +1,8 @@
 package scales
 
-import "strings"
+import (
+	"strings"
+)
 
 func GetScale(input string) ([]string, bool, string) {
 	// key := strings.ToLower(strings.TrimSpace(input))
@@ -294,4 +296,92 @@ var Scales = map[string][]string{
 	"B_Minor_Pentatonic":             BMinorPentatonic,
 	"B_Major_Pentatonic_Blues":       BMajorPentatonicBlues,
 	"B_Minor_Pentatonic_Blues":       BMinorPentatonicBlues,
+}
+
+var ScaleMap = map[string][]string{
+	// C
+	"C_Major":                        {"C", "cM"},
+	"C_Minor":                        {"cm"},
+	"C_Minor_Pentatonic":             {"cmp"},
+	"C_Major_Pentatonic":             {"cMp"},
+	"C_Minor_Pentatonic_Blues":       {"cmpb"},
+	"C_Major_Pentatonic_Blues":       {"cMpb"},
+	"C_Sharp_Major":                  {"C#"},
+	"C_Sharp_Minor":                  {"c#m"},
+	"C_Sharp_Minor_Pentatonic":       {"c#mp"},
+	"C_Sharp_Major_Pentatonic":       {"c#Mp"},
+	"C_Sharp_Minor_Pentatonic_Blues": {"c#mpb"},
+	"C_Sharp_Major_Pentatonic_Blues": {"c#Mpb"},
+
+	// D
+	"D_Major":                        {"D", "dM"},
+	"D_Minor":                        {"dm"},
+	"D_Minor_Pentatonic":             {"dmp"},
+	"D_Major_Pentatonic":             {"dMp"},
+	"D_Minor_Pentatonic_Blues":       {"dmpb"},
+	"D_Major_Pentatonic_Blues":       {"dMpb"},
+	"D_Sharp_Major":                  {"D#"},
+	"D_Sharp_Minor":                  {"d#m"},
+	"D_Sharp_Minor_Pentatonic":       {"d#mp"},
+	"D_Sharp_Major_Pentatonic":       {"d#Mp"},
+	"D_Sharp_Minor_Pentatonic_Blues": {"d#mpb"},
+	"D_Sharp_Major_Pentatonic_Blues": {"d#Mpb"},
+
+	// E
+	"E_Major":                  {"E", "eM"},
+	"E_Minor":                  {"em"},
+	"E_Minor_Pentatonic":       {"emp"},
+	"E_Major_Pentatonic":       {"eMp"},
+	"E_Minor_Pentatonic_Blues": {"empb"},
+	"E_Major_Pentatonic_Blues": {"eMpb"},
+
+	// F
+	"F_Major":                        {"F", "fM"},
+	"F_Minor":                        {"fm"},
+	"F_Minor_Pentatonic":             {"fmp"},
+	"F_Major_Pentatonic":             {"fMp"},
+	"F_Minor_Pentatonic_Blues":       {"fmpb"},
+	"F_Major_Pentatonic_Blues":       {"fMpb"},
+	"F_Sharp_Major":                  {"F#"},
+	"F_Sharp_Minor":                  {"f#m"},
+	"F_Sharp_Minor_Pentatonic":       {"f#mp"},
+	"F_Sharp_Major_Pentatonic":       {"f#Mp"},
+	"F_Sharp_Minor_Pentatonic_Blues": {"f#mpb"},
+	"F_Sharp_Major_Pentatonic_Blues": {"f#Mpb"},
+
+	// G
+	"G_Major":                        {"G", "gM"},
+	"G_Minor":                        {"gm"},
+	"G_Minor_Pentatonic":             {"gmp"},
+	"G_Major_Pentatonic":             {"gMp"},
+	"G_Minor_Pentatonic_Blues":       {"gmpb"},
+	"G_Major_Pentatonic_Blues":       {"gMpb"},
+	"G_Sharp_Major":                  {"G#"},
+	"G_Sharp_Minor":                  {"g#m"},
+	"G_Sharp_Minor_Pentatonic":       {"g#mp"},
+	"G_Sharp_Major_Pentatonic":       {"g#Mp"},
+	"G_Sharp_Minor_Pentatonic_Blues": {"g#mpb"},
+	"G_Sharp_Major_Pentatonic_Blues": {"g#Mpb"},
+
+	// A
+	"A_Major":                        {"A", "aM"},
+	"A_Minor":                        {"am"},
+	"A_Minor_Pentatonic":             {"amp"},
+	"A_Major_Pentatonic":             {"aMp"},
+	"A_Minor_Pentatonic_Blues":       {"ampb"},
+	"A_Major_Pentatonic_Blues":       {"aMpb"},
+	"A_Sharp_Major":                  {"A#"},
+	"A_Sharp_Minor":                  {"a#m"},
+	"A_Sharp_Minor_Pentatonic":       {"a#mp"},
+	"A_Sharp_Major_Pentatonic":       {"a#Mp"},
+	"A_Sharp_Minor_Pentatonic_Blues": {"a#mpb"},
+	"A_Sharp_Major_Pentatonic_Blues": {"a#Mpb"},
+
+	// B
+	"B_Major":                  {"B", "bM"},
+	"B_Minor":                  {"bm"},
+	"B_Minor_Pentatonic":       {"bmp"},
+	"B_Major_Pentatonic":       {"bMp"},
+	"B_Minor_Pentatonic_Blues": {"bmpb"},
+	"B_Major_Pentatonic_Blues": {"bMpb"},
 }
