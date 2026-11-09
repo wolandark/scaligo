@@ -5,7 +5,17 @@ This project is a wip and is NOT ai assisted. In other words, this is not slop, 
 
 
 # Usage
-clone and build the project using the `build.sh` script. Run the binary from your shell and press 'h' for help. 
+Download a version from releases for your OS
+
+or
+
+clone and build the project using the `build.sh` script. 
+
+Run the binary from your shell and press 'h' for help. 
+
+You can also run `./scaligo -h` to learn about the flags
+ 
+Use 's' in interactive mode to learn the shortcuts
 
 # The Name
 Somewhat inspired by skeligrow potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
