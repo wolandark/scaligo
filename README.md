@@ -94,6 +94,13 @@ Neon cyberpunk — frets glow magenta, notes are cyan:
 ```
 <img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/aab83bec-d31b-4ce5-82a1-a9827c8be5ed" />
 
+Default emojis with `-e`:
+```
+./scaligo -e -s em
+```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/9d5490c8-c8ae-47d9-be94-b997ec051c95" />
+
+
 If you wanna be goofy:
 ```
 ./scaligo -c   -style "#e0e0e0" -scalename "#00ffd5" -fretstyle "#ff2bd6" -stringstyle "#4a4a6a" -matchstyle "#00ffd5" -matchsharpstyle "#ff2bd6" -e -noteemoji="😀" -sharpnoteemoji="🫠" -inlayemoji="🤣" -s fsharpminor
