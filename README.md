@@ -4,18 +4,18 @@ A tui guitar scale visualizer in go, using tcell.
 This project is a wip and is NOT ai assisted. In other words, this is not slop, and therefor it may take a long time to develop further.
 
 
-# Usage
+# Quick Start
 Download a version from releases for your OS
 
 or
 
 clone and build the project using the `build.sh` script. 
 
-Run the binary from your shell and press 'h' for help. 
+Run the binary from your shell and press `h` for help. 
 
 You can also run `./scaligo -h` to learn about the flags
  
-Use 's' in interactive mode to learn the shortcuts
+Use `s` in interactive mode to learn the scale shortcuts
 
 # Flags
 Use `-s` to start with a scale name or alias, such as `./scaligo -s am`. Default is A Minor Pentatonic.
@@ -115,7 +115,7 @@ If you wanna be goofy:
 <img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/87182f70-7fae-435a-8525-3f3622fffc61" />
 
 # The Name
-Somewhat inspired by skeligrow potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
+Somewhat inspired by skele-gro potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
 
 # Default Look (using uxterm)
 <img width="1157" height="884" alt="image" src="https://github.com/user-attachments/assets/8ca2e212-519b-4a27-b45d-5be1ee358d3e" />
@@ -128,3 +128,10 @@ Press `s` to get the shortcuts overlay
 
 # That is it for now
 <img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/20ceff32-fe0c-4bbc-9a9b-0e3e5c2a8ae1" />
+
+# Roadmap
+- [-] Add scale tablature below the fretboard
+	- [-] Add vertical. diagonal and positions 
+- [-] Use sox or something to listen to the scales
+- [-] Add Arpeggios and Chord support
+- [-] Add btns in UI for more user-friendlyness
