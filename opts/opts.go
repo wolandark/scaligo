@@ -97,6 +97,7 @@ func ParseOpts() ([]string, string, Config) {
 		fmt.Printf("%-12s %s\n", "dropc# ->", "Drop C#")
 		fmt.Printf("%-12s %s\n", "dropb ->", "Drop B")
 		fmt.Printf("%-12s %s\n", "dadgad ->", "DADGAD")
+		fmt.Printf("%-12s %s\n", "openc ->", "Open C")
 		fmt.Printf("%-12s %s\n", "opend ->", "Open D")
 		fmt.Printf("%-12s %s\n", "openg ->", "Open G")
 		fmt.Printf("%-12s %s\n", "opene ->", "Open E")

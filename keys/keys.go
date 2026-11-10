@@ -15,7 +15,7 @@ var scale []string
 func ReadKeys(s tcell.Screen) ([]string, string, bool, bool, bool) {
 	switch ev := s.PollEvent().(type) {
 	case *tcell.EventKey:
-		if ev.Rune() == 'q' {
+		if ev.Rune() == 'q' || ev.Key() == tcell.KeyCtrlC {
 			return nil, "", false, false, false
 		}
 

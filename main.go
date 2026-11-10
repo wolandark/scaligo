@@ -86,7 +86,7 @@ func main() {
 		//======================================================================================
 		// reject small terminal
 		//======================================================================================
-		if termWidth < 105 && termHeight < 21 {
+		if termWidth < 105 || termHeight < 21 {
 			fmt.Println("term too small, go fuck yourself!")
 
 			for i, r := range "Hello, World!" {
@@ -206,7 +206,7 @@ func main() {
 				}
 
 				for i := 0; i < len(runes); i++ {
-					s.SetContent(nx+i, ny, runes[i], nil, runeColor)
+					// s.SetContent(nx+i, ny, runes[i], nil, runeColor)
 					s.SetContent(nx+i, ny, r, nil, runeColor)
 				}
 			}
