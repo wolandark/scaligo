@@ -3,11 +3,12 @@ package opts
 import (
 	"flag"
 	"fmt"
-	"github.com/gdamore/tcell/v2"
 	"maps"
 	"os"
 	"scaligo/scales"
 	"slices"
+
+	"github.com/gdamore/tcell/v2"
 )
 
 type Config struct {
@@ -29,6 +30,52 @@ type Config struct {
 	JunctionRune rune
 	TRune        rune
 	RevTRune     rune
+	Tuning       [][]string
+}
+
+var fretboard_e = [][]string{
+	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
+	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+}
+
+var fretboard_d = [][]string{
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
+	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
+	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+}
+
+var fretboard_c = [][]string{
+	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
+	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
+	{"A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"},
+	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
+	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
+}
+
+var fretboard_eb = [][]string{
+	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
+	{"A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"},
+	{"F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"},
+	{"C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"},
+	{"G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"},
+	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
+}
+
+var fretboard_drop_d = [][]string{
+	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
+	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
 }
 
 func ParseOpts() ([]string, string, Config) {
@@ -52,6 +99,7 @@ func ParseOpts() ([]string, string, Config) {
 	cfg.TRune = '┬'
 	cfg.RevTRune = '┴'
 
+	t_flag := flag.String("t", "predefined tunings", "tuning")
 	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") // default scale if no -s
 	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
 	a_flag := flag.Bool("a", false, "list abbreviations")     // list scale aliases
@@ -81,8 +129,22 @@ func ParseOpts() ([]string, string, Config) {
 	c_noteEmoji := flag.String("noteemoji", "", "note emoji")
 	c_sharpNoteEmoji := flag.String("sharpnoteemoji", "", "sharp note emoji")
 	c_inlayEmoji := flag.String("inlayemoji", "", "inlay emoji")
+	cfg.Tuning = fretboard_e
 
 	flag.Parse()
+
+	if *t_flag != "" {
+		switch *t_flag {
+		case "d":
+			cfg.Tuning = fretboard_d
+		case "c":
+			cfg.Tuning = fretboard_c
+		case "eb":
+			cfg.Tuning = fretboard_eb
+		case "dropd":
+			cfg.Tuning = fretboard_drop_d
+		}
+	}
 
 	if *c_flag {
 		if *c_style != "" {

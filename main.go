@@ -24,14 +24,23 @@ const (
 // ======================================================================================
 // Fretboard data
 // ======================================================================================
-var fretboard_e = [][]string{
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-}
+// var cfg.Tuning = [][]string{
+// 	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+// 	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
+// 	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+// 	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+// 	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+// 	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
+// }
+
+// var fretboard_d = [][]string{
+// 	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+// 	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
+// 	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
+// 	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
+// 	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
+// 	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
+// }
 
 func main() {
 	//======================================================================================
@@ -65,8 +74,8 @@ func main() {
 		//======================================================================================
 		termWidth, termHeight := s.Size()
 
-		frets := len(fretboard_e[0])
-		str := len(fretboard_e)
+		frets := len(cfg.Tuning[0])
+		str := len(cfg.Tuning)
 
 		boardWidth := (frets - 1) * fretSpacing
 		boardHeight := (str-1)*stringSpacing + 1
@@ -166,8 +175,8 @@ func main() {
 		//======================================================================================
 		// draw notes on the fretboard
 		//======================================================================================
-		for stringIndex := 0; stringIndex < len(fretboard_e); stringIndex++ {
-			notes := fretboard_e[stringIndex]
+		for stringIndex := 0; stringIndex < len(cfg.Tuning); stringIndex++ {
+			notes := cfg.Tuning[stringIndex]
 
 			for fretIndex := 0; fretIndex < len(notes); fretIndex++ {
 				note := notes[fretIndex]
