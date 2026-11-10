@@ -1,19 +1,14 @@
 package main
 
 import (
-	"flag"
 	"fmt"
-	"maps"
-
-	"scaligo/help"
-	"scaligo/keys"
-	"scaligo/scales"
-
-	"os"
-	"slices"
-	"strings"
 
 	"github.com/gdamore/tcell/v2"
+	"scaligo/help"
+	"scaligo/keys"
+	"scaligo/opts"
+	"slices"
+	"strings"
 )
 
 // ======================================================================================
@@ -33,18 +28,18 @@ const (
 // ======================================================================================
 // Styles
 // ======================================================================================
-var (
-	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
-	scaleName       = tcell.StyleDefault.Foreground(tcell.ColorGreen)
-	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
-	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorLightYellow)
-	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
-	matchSharpStyle = tcell.StyleDefault.Foreground(tcell.ColorRed)
-	inlayStyle      = tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
-	noteRune        = '⬤'
-	sharpRune       = '⬤'
-	inlayRune       = '◆'
-)
+// var (
+// 	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
+// 	scaleName       = tcell.StyleDefault.Foreground(tcell.ColorGreen)
+// 	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
+// 	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorLightYellow)
+// 	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
+// 	matchSharpStyle = tcell.StyleDefault.Foreground(tcell.ColorRed)
+// 	inlayStyle      = tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
+// 	noteRune        = '⬤'
+// 	sharpRune       = '⬤'
+// 	inlayRune       = '◆'
+// )
 
 // ======================================================================================
 // Fretboard data
@@ -60,115 +55,9 @@ var fretboard_e = [][]string{
 
 func main() {
 	//======================================================================================
-	// flag section
+	// flags
 	//======================================================================================
-	// s_flag := flag.String("s", "", "scale")
-
-	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") //default scale if no -s
-	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
-	a_flag := flag.Bool("a", false, "list abbreviations")     // list scale aliases
-	h_flag := flag.Bool("h", false, "commandline help")       // obviously prints help
-	e_flag := flag.Bool("e", false, "use emojis")
-	c_flag := flag.Bool("c", false, "customize colors")
-
-	c_style := flag.String("style", "", "Fret color (hex)")
-	c_scaleName := flag.String("scalename", "", "Fret color (hex)")
-	c_fretStyle := flag.String("fretstyle", "", "Fret color (hex)")
-	c_stringStyle := flag.String("stringstyle", "", "String color (hex)")
-	c_matchStyle := flag.String("matchstyle", "", "Match color (hex)")
-	c_matchSharpStyle := flag.String("matchsharpstyle", "", "Match color (hex)")
-	c_inlayStyle := flag.String("inlaystyle", "", "Inlay color (hex)")
-
-	c_noteRune := flag.String("noterune", "", "note rune")
-	c_sharpRune := flag.String("sharprune", "", "sharp note rune")
-	c_inlayRune := flag.String("inlayrune", "", "inlay rune")
-
-	flag.Parse()
-
-	if *c_flag {
-		if *c_style != "" {
-			style = tcell.StyleDefault.Foreground(tcell.GetColor(*c_style))
-		}
-		if *c_scaleName != "" {
-			scaleName = tcell.StyleDefault.Foreground(tcell.GetColor(*c_scaleName))
-		}
-		if *c_matchSharpStyle != "" {
-			matchSharpStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_matchSharpStyle))
-		}
-		if *c_fretStyle != "" {
-			fretStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_fretStyle))
-		}
-		if *c_stringStyle != "" {
-			stringStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_stringStyle))
-		}
-		if *c_matchStyle != "" {
-			matchStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_matchStyle))
-		}
-		if *c_inlayStyle != "" {
-			inlayStyle = tcell.StyleDefault.Foreground(tcell.GetColor(*c_inlayStyle))
-		}
-		if *c_noteRune != "" {
-			noteRune = []rune(*c_noteRune)[0]
-		}
-		if *c_inlayRune != "" {
-			inlayRune = []rune(*c_inlayRune)[0]
-		}
-		if *c_sharpRune != "" {
-			sharpRune = []rune(*c_sharpRune)[0]
-		}
-	}
-
-	if *e_flag {
-		noteRune = '🟢'
-		sharpRune = '🔴'
-		inlayRune = '💠'
-
-	}
-
-	if *h_flag {
-		fmt.Println("Use ./scaligo to enter interactive visualizer")
-		fmt.Println()
-		fmt.Println("Flags:")
-		fmt.Println("\t-l : list all known scales")
-		fmt.Println("\t-a : list all known scales and their aliases (shortcuts in interactive mode)")
-		fmt.Println("\t-s : use -s to start scaligo with a known scale. Example: <scaligo -s am>")
-		fmt.Println("\t-h : this help menu")
-		fmt.Println()
-		fmt.Println("Quick Start:")
-		fmt.Println("\tIn interactive mode, press any sequence from the -a flag to swtich scales")
-		fmt.Println("\tPress <h> to read the help and follow along")
-		return
-	}
-
-	if *a_flag {
-		for i, k := range slices.Sorted(maps.Keys(scales.ScaleMap)) {
-			v := scales.ScaleMap[k]
-			fmt.Printf("\n%d - %s -%s", i, k, v)
-			if (i+1)%4 == 0 {
-				fmt.Println()
-			}
-		}
-		fmt.Println()
-		return
-	}
-
-	if *l_flag {
-		for i, name := range slices.Sorted(maps.Keys(scales.Scales)) {
-			fmt.Printf("%-35s", name)
-			if (i+1)%4 == 0 {
-				fmt.Println()
-			}
-		}
-		fmt.Println()
-		return
-	}
-
-	scale, exists, title := scales.GetScale(*s_flag)
-
-	if !exists {
-		fmt.Println("Unknown scale:", *s_flag)
-		os.Exit(1)
-	}
+	scale, title, cfg := opts.ParseOpts()
 
 	//======================================================================================
 	// tcell screen
@@ -212,7 +101,7 @@ func main() {
 			fmt.Println("term too small, go fuck yourself!")
 
 			for i, r := range "Hello, World!" {
-				s.SetContent(x, y, r, nil, style)
+				s.SetContent(x, y, r, nil, cfg.Style)
 				i++
 			}
 			s.SetContent(x, y, '!', nil, tcell.StyleDefault)
@@ -232,8 +121,8 @@ func main() {
 			if slices.Contains(inlays, fretIndex) {
 				for j := 4; j < 6; j++ {
 					for i := 1; i < boardHeight-1; i++ {
-						// s.SetContent(x+(fretIndex-1)*fretSpacing+j, y+i, '🔷', nil, style)
-						s.SetContent(x+(fretIndex-1)*fretSpacing+fretSpacing/2, y+boardHeight/2, inlayRune, nil, inlayStyle)
+						// s.SetContent(x+(fretIndex-1)*fretSpacing+j, y+i, '🔷', nil, cfg.Style)
+						s.SetContent(x+(fretIndex-1)*fretSpacing+fretSpacing/2, y+boardHeight/2, cfg.InlayRune, nil, cfg.InlayStyle)
 					}
 				}
 			}
@@ -244,7 +133,7 @@ func main() {
 		//======================================================================================
 		for i := 0; i < frets; i++ {
 			for j := 0; j < boardHeight; j++ {
-				s.SetContent(x+i*fretSpacing, y+j, fretRune, nil, fretStyle)
+				s.SetContent(x+i*fretSpacing, y+j, fretRune, nil, cfg.FretStyle)
 			}
 		}
 
@@ -253,7 +142,7 @@ func main() {
 		//======================================================================================
 		for i := 0; i < str; i++ {
 			for j := 0; j < boardWidth; j++ {
-				s.SetContent(x+j, y+i*stringSpacing, stringRune, nil, stringStyle)
+				s.SetContent(x+j, y+i*stringSpacing, stringRune, nil, cfg.StringStyle)
 			}
 		}
 
@@ -273,7 +162,7 @@ func main() {
 					r = revTRune
 				}
 
-				s.SetContent(nx, ny, r, nil, fretStyle)
+				s.SetContent(nx, ny, r, nil, cfg.FretStyle)
 			}
 		}
 
@@ -287,13 +176,13 @@ func main() {
 		// title = strings.ToUpper(title[:1]) + title[1:]
 		title = strings.ReplaceAll(title, "_", " ")
 		for i := 0; i < len(title); i++ {
-			s.SetContent(x+i, y-5, rune(title[i]), nil, scaleName)
+			s.SetContent(x+i, y-5, rune(title[i]), nil, cfg.ScaleName)
 		}
 
 		for i := 0; i < len(scale); i++ {
 			for j := 0; j < len(scale[i]); j++ {
 				a := rune(scale[i][j])
-				s.SetContent(x+offset, y-3, a, nil, style)
+				s.SetContent(x+offset, y-3, a, nil, cfg.Style)
 				offset++
 			}
 			offset++
@@ -320,15 +209,15 @@ func main() {
 				}
 
 				runes := []rune(note)
-				r := noteRune
-				var runeColor = matchStyle
+				r := cfg.NoteRune
+				var runeColor = cfg.MatchStyle
 
 				if slices.Contains(runes, '#') {
-					r = sharpRune
-					runeColor = matchSharpStyle
+					r = cfg.SharpRune
+					runeColor = cfg.MatchSharpStyle
 				}
 				if len(runes) > 1 {
-					r = sharpRune
+					r = cfg.SharpRune
 					runes = runes[:1]
 				}
 
