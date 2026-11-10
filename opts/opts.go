@@ -53,8 +53,9 @@ func ParseOpts() ([]string, string, Config) {
 	cfg.TRune = '┬'
 	cfg.RevTRune = '┴'
 
-	t_flag := flag.String("t", "predefined tunings", "tuning")
-	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") // default scale if no -s
+	t_flag := flag.String("t", "E Standard", "tuning")
+	T_flag := flag.Bool("T", false, "list tunings")
+	s_flag := flag.String("s", "A Minor Pentatonic", "scale") // default scale if no -s
 	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
 	a_flag := flag.Bool("a", false, "list abbreviations")     // list scale aliases
 	h_flag := flag.Bool("h", false, "commandline help")       // obviously prints help
@@ -87,6 +88,22 @@ func ParseOpts() ([]string, string, Config) {
 
 	flag.Parse()
 
+	if *T_flag {
+		fmt.Printf("%-12s %s\n", "d ->", "D Standard")
+		fmt.Printf("%-12s %s\n", "c ->", "C Standard")
+		fmt.Printf("%-12s %s\n", "eb ->", "Eb Standard")
+		fmt.Printf("%-12s %s\n", "dropd ->", "Drop D")
+		fmt.Printf("%-12s %s\n", "dropc ->", "Drop C")
+		fmt.Printf("%-12s %s\n", "dropc# ->", "Drop C#")
+		fmt.Printf("%-12s %s\n", "dropb ->", "Drop B")
+		fmt.Printf("%-12s %s\n", "dadgad ->", "DADGAD")
+		fmt.Printf("%-12s %s\n", "opend ->", "Open D")
+		fmt.Printf("%-12s %s\n", "openg ->", "Open G")
+		fmt.Printf("%-12s %s\n", "opene ->", "Open E")
+		fmt.Printf("%-12s %s\n", "ddropd ->", "Double Drop D")
+		os.Exit(0)
+	}
+
 	if *t_flag != "" {
 		switch *t_flag {
 		case "d":
@@ -113,7 +130,7 @@ func ParseOpts() ([]string, string, Config) {
 			cfg.Tuning = tunings.Fretboard_open_e
 		case "openc":
 			cfg.Tuning = tunings.Fretboard_open_c
-		case "doubledropdtunings.":
+		case "ddropd":
 			cfg.Tuning = tunings.Fretboard_double_drop_d
 		}
 	}

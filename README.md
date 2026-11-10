@@ -59,8 +59,15 @@ A fully customized look:
 ```
 <img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/9e55e43a-a0bd-4dd1-9fca-a2af53a975ac" />
 
+# Tunings
+Use `-T` to get a list of available tunings. Once you pick a desired tuning, you can pass it with `-t`
 
-# More Customization
+Example:
+```
+./scaligo -t dropd -s dm
+```
+
+# Customization
 All the characters and runes used to draw the fretboard and the scales are customizable using the parameters that follow the `-c` flag.
 
 Some examples would be:
