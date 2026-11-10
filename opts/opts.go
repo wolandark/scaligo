@@ -3,12 +3,12 @@ package opts
 import (
 	"flag"
 	"fmt"
+	"github.com/gdamore/tcell/v2"
 	"maps"
 	"os"
 	"scaligo/scales"
+	"scaligo/tunings"
 	"slices"
-
-	"github.com/gdamore/tcell/v2"
 )
 
 type Config struct {
@@ -30,132 +30,6 @@ type Config struct {
 	TRune           rune
 	RevTRune        rune
 	Tuning          [][]string
-}
-
-var fretboard_e = [][]string{
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-}
-
-var fretboard_d = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-}
-
-var fretboard_c = [][]string{
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
-	{"A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"},
-	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-}
-
-var fretboard_eb = [][]string{
-	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
-	{"A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"},
-	{"F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"},
-	{"C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"},
-	{"G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"},
-	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
-}
-
-var fretboard_drop_d = [][]string{
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-}
-
-var fretboard_drop_c = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-}
-
-var fretboard_drop_c_sharp = [][]string{
-	{"D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"},
-	{"A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"},
-	{"F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"},
-	{"C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"},
-	{"G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"},
-	{"C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"},
-}
-
-var fretboard_drop_b = [][]string{
-	{"C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"},
-	{"G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"},
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-}
-
-var fretboard_dadgad = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-}
-
-var fretboard_open_d = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-}
-
-var fretboard_open_g = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-}
-
-var fretboard_open_e = [][]string{
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"},
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-}
-
-var fretboard_open_c = [][]string{
-	{"E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"},
-}
-
-var fretboard_double_drop_d = [][]string{
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"},
-	{"G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
-	{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"},
-	{"D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"},
 }
 
 func ParseOpts() ([]string, string, Config) {
@@ -209,38 +83,38 @@ func ParseOpts() ([]string, string, Config) {
 	c_noteEmoji := flag.String("noteemoji", "", "note emoji")
 	c_sharpNoteEmoji := flag.String("sharpnoteemoji", "", "sharp note emoji")
 	c_inlayEmoji := flag.String("inlayemoji", "", "inlay emoji")
-	cfg.Tuning = fretboard_e
+	cfg.Tuning = tunings.Fretboard_e
 
 	flag.Parse()
 
 	if *t_flag != "" {
 		switch *t_flag {
 		case "d":
-			cfg.Tuning = fretboard_d
+			cfg.Tuning = tunings.Fretboard_d
 		case "c":
-			cfg.Tuning = fretboard_c
+			cfg.Tuning = tunings.Fretboard_c
 		case "eb":
-			cfg.Tuning = fretboard_eb
+			cfg.Tuning = tunings.Fretboard_eb
 		case "dropd":
-			cfg.Tuning = fretboard_drop_d
+			cfg.Tuning = tunings.Fretboard_drop_d
 		case "dropc":
-			cfg.Tuning = fretboard_drop_c
+			cfg.Tuning = tunings.Fretboard_drop_c
 		case "dropc#":
-			cfg.Tuning = fretboard_drop_c_sharp
+			cfg.Tuning = tunings.Fretboard_drop_c_sharp
 		case "dropb":
-			cfg.Tuning = fretboard_drop_b
+			cfg.Tuning = tunings.Fretboard_drop_b
 		case "dadgad":
-			cfg.Tuning = fretboard_dadgad
+			cfg.Tuning = tunings.Fretboard_dadgad
 		case "opend":
-			cfg.Tuning = fretboard_open_d
+			cfg.Tuning = tunings.Fretboard_open_d
 		case "openg":
-			cfg.Tuning = fretboard_open_g
+			cfg.Tuning = tunings.Fretboard_open_g
 		case "opene":
-			cfg.Tuning = fretboard_open_e
+			cfg.Tuning = tunings.Fretboard_open_e
 		case "openc":
-			cfg.Tuning = fretboard_open_c
-		case "doubledropd":
-			cfg.Tuning = fretboard_double_drop_d
+			cfg.Tuning = tunings.Fretboard_open_c
+		case "doubledropdtunings.":
+			cfg.Tuning = tunings.Fretboard_double_drop_d
 		}
 	}
 
