@@ -130,8 +130,8 @@ Press `s` to get the shortcuts overlay
 <img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/20ceff32-fe0c-4bbc-9a9b-0e3e5c2a8ae1" />
 
 # Roadmap
-- [-] Add scale tablature below the fretboard
-	- [-] Add vertical. diagonal and positions 
-- [-] Use sox or something to listen to the scales
-- [-] Add Arpeggios and Chord support
-- [-] Add btns in UI for more user-friendlyness
+- [ ] Add scale tablature below the fretboard
+	- [ ] Add vertical. diagonal and positions 
+- [ ] Use sox or something to listen to the scales
+- [ ] Add Arpeggios and Chord support
+- [ ] Add btns in UI for more user-friendlyness
