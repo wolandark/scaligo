@@ -110,7 +110,14 @@ If you wanna be goofy:
 # The Name
 Somewhat inspired by skeligrow potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
 
-# Looks (using uxterm)
+# Default Look (using uxterm)
 <img width="1157" height="884" alt="image" src="https://github.com/user-attachments/assets/8ca2e212-519b-4a27-b45d-5be1ee358d3e" />
-<img width="1484" height="859" alt="image" src="https://github.com/user-attachments/assets/9d9be510-9969-41c8-9095-f03ebabec54c" />
+
+Press `h` for the help overlay
+<img width="1350" height="520" alt="image" src="https://github.com/user-attachments/assets/20f5d6aa-da4c-4f42-8020-c4e082b259f2" />
+
+Press `s` to get the shortcuts overlay
+<img width="1869" height="997" alt="image" src="https://github.com/user-attachments/assets/b7e4cb0d-14f2-4876-83c4-dfc46045094d" />
+
+# That is it for now
 <img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/20ceff32-fe0c-4bbc-9a9b-0e3e5c2a8ae1" />
