@@ -78,6 +78,10 @@ func ParseOpts() ([]string, string, Config) {
 	c_tRune := flag.String("trune", "", "t rune")
 	c_revTRune := flag.String("revtrune", "", "revt rune")
 
+	c_noteEmoji := flag.String("noteemoji", "", "note emoji")
+	c_sharpNoteEmoji := flag.String("sharpnoteemoji", "", "sharp note emoji")
+	c_inlayEmoji := flag.String("inlayemoji", "", "inlay emoji")
+
 	flag.Parse()
 
 	if *c_flag {
@@ -117,7 +121,6 @@ func ParseOpts() ([]string, string, Config) {
 		if *c_stringRune != "" {
 			cfg.StringRune = []rune(*c_stringRune)[0]
 		}
-
 		if *c_junctionRune != "" {
 			cfg.JunctionRune = []rune(*c_junctionRune)[0]
 		}
@@ -130,9 +133,17 @@ func ParseOpts() ([]string, string, Config) {
 	}
 
 	if *e_flag {
-		cfg.NoteRune = '🟢'
-		cfg.SharpRune = '🔴'
-		cfg.InlayRune = '💠'
+		cfg.NoteRune, cfg.SharpRune, cfg.InlayRune = '🟢', '🔴', '💠'
+
+		if r := []rune(*c_noteEmoji); len(r) > 0 {
+			cfg.NoteRune = r[0]
+		}
+		if r := []rune(*c_sharpNoteEmoji); len(r) > 0 {
+			cfg.SharpRune = r[0]
+		}
+		if r := []rune(*c_inlayEmoji); len(r) > 0 {
+			cfg.InlayRune = r[0]
+		}
 	}
 
 	if *h_flag {
