@@ -43,51 +43,63 @@ Change the colors:
 ```sh
 ./scaligo -c -style "#EBDBB2" -scalename "#FABD2F" -stringstyle "#665C54" -fretstyle "#D79921" -matchstyle "#B8BB26" -matchsharpstyle "#FB4934" -inlaystyle "#D3869B"
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/8e7d9efc-ce4a-4494-bf03-228ac375a3b3" />
+
 
 Change just the markers:
 ```
 ./scaligo -c -noterune=o -sharprune=x
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/6a3dba33-16cf-4380-b39d-e022300b1842" />
 
 A fully customized look:
 ```
  ./scaligo -c -style "#EBDBB2" -scalename "#FABD2F" -stringstyle "#665C54" -fretstyle "#D79921" -matchstyle "#B8BB26" -matchsharpstyle "#FB4934" -inlaystyle "#D3869B" -noterune o -sharprune x -inlayrune + -s fsharpminor
 
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/9e55e43a-a0bd-4dd1-9fca-a2af53a975ac" />
 
-# Customization
+
+# More Customization
 All the characters and runes used to draw the fretboard and the scales are customizable using the parameters that follow the `-c` flag.
 
 Some examples would be:
 ```
 ./scaligo -c -style "#cdd6f4" -scalename "#f5c2e7" -fretstyle "#585b70" -stringstyle "#313244" -matchstyle "#89b4fa" -matchsharpstyle "#f5c2e7" -inlaystyle "#cba6f7" -noterune ⬤ -sharprune ⬤ -inlayrune ✦
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/87900f6b-8310-4316-81c7-b37a5fbdc33f" />
 
 Dracula — double-line board, pink/green on purple-gray:
 ```
 ./scaligo -c -style "#f8f8f2" -scalename "#ff79c6" -fretstyle "#6272a4" -stringstyle "#44475a" -matchstyle "#50fa7b" -matchsharpstyle "#ff79c6" -inlaystyle "#bd93f9" -fretrune ║ -stringrune ═ -junctionrune ╬ -trune ╦ -revtrune ╩ -noterune ● -inlayrune ◆
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/06b1317c-b594-4179-9fab-f436137511f0" />
 
 Nord — cold, quiet, everything ice-blue:
 ```
 ./scaligo -c -style "#eceff4" -scalename "#88c0d0" -fretstyle "#4c566a" -stringstyle "#434c5e" -matchstyle "#81a1c1" -matchsharpstyle "#ebcb8b" -inlaystyle "#5e81ac" -noterune ⬤ -inlayrune ◇
 ````
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/667ce5ae-4db4-4cd7-a1bf-fa491ea1f438" />
+
 
 Gruvbox — warm earth tones, yellow inlays like real mother-of-toilet-seat:
 ```
 ./scaligo -c -style "#ebdbb2" -scalename "#fabd2f" -fretstyle "#504945" -stringstyle "#3c3836" -matchstyle "#b8bb26" -matchsharpstyle "#fb4934" -inlaystyle "#d79921" -noterune ● -inlayrune ◆
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/dbcb7414-20c4-44e8-a111-cf2bb43aaf92" />
 
 Neon cyberpunk — frets glow magenta, notes are cyan:
 ```
 ./scaligo -c -style "#e0e0e0" -scalename "#00ffd5" -fretstyle "#ff2bd6" -stringstyle "#4a4a6a" -matchstyle "#00ffd5" -matchsharpstyle "#ff2bd6" -inlaystyle "#ffe66d" -noterune ⏺ -inlayrune ◆
 ```
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/aab83bec-d31b-4ce5-82a1-a9827c8be5ed" />
 
 If you wanna be goofy:
 ```
 ./scaligo -c   -style "#e0e0e0" -scalename "#00ffd5" -fretstyle "#ff2bd6" -stringstyle "#4a4a6a" -matchstyle "#00ffd5" -matchsharpstyle "#ff2bd6" -e -noteemoji="😀" -sharpnoteemoji="🫠" -inlayemoji="🤣" -s fsharpminor
 ```
-  
+<img width="1097" height="483" alt="image" src="https://github.com/user-attachments/assets/87182f70-7fae-435a-8525-3f3622fffc61" />
+
 # The Name
 Somewhat inspired by skeligrow potion in HP, since you know, we are sort of growing a skeleton for our fretboard (don't laugh)
 
