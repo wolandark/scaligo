@@ -23,6 +23,12 @@ type Config struct {
 	NoteRune        rune
 	SharpRune       rune
 	InlayRune       rune
+
+	FretRune     rune
+	StringRune   rune
+	JunctionRune rune
+	TRune        rune
+	RevTRune     rune
 }
 
 func ParseOpts() ([]string, string, Config) {
@@ -39,6 +45,12 @@ func ParseOpts() ([]string, string, Config) {
 	cfg.NoteRune = '⬤'
 	cfg.SharpRune = '⬤'
 	cfg.InlayRune = '◆'
+
+	cfg.FretRune = '│'
+	cfg.StringRune = '─'
+	cfg.JunctionRune = '┼'
+	cfg.TRune = '┬'
+	cfg.RevTRune = '┴'
 
 	s_flag := flag.String("s", "A_Minor_Pentatonic", "scale") // default scale if no -s
 	l_flag := flag.Bool("l", false, "list known scales")      // list known scales
@@ -58,6 +70,13 @@ func ParseOpts() ([]string, string, Config) {
 	c_noteRune := flag.String("noterune", "", "note rune")
 	c_sharpRune := flag.String("sharprune", "", "sharp note rune")
 	c_inlayRune := flag.String("inlayrune", "", "inlay rune")
+
+	c_fretRune := flag.String("fretrune", "", "rune for the fret wire")
+	c_stringRune := flag.String("stringrune", "", "rune for the strings")
+
+	c_junctionRune := flag.String("junctionrune", "", "rune for the crosspoint of strings/fret wires")
+	c_tRune := flag.String("trune", "", "t rune")
+	c_revTRune := flag.String("revtrune", "", "revt rune")
 
 	flag.Parse()
 
@@ -91,6 +110,22 @@ func ParseOpts() ([]string, string, Config) {
 		}
 		if *c_sharpRune != "" {
 			cfg.SharpRune = []rune(*c_sharpRune)[0]
+		}
+		if *c_fretRune != "" {
+			cfg.FretRune = []rune(*c_fretRune)[0]
+		}
+		if *c_stringRune != "" {
+			cfg.StringRune = []rune(*c_stringRune)[0]
+		}
+
+		if *c_junctionRune != "" {
+			cfg.JunctionRune = []rune(*c_junctionRune)[0]
+		}
+		if *c_tRune != "" {
+			cfg.TRune = []rune(*c_tRune)[0]
+		}
+		if *c_revTRune != "" {
+			cfg.RevTRune = []rune(*c_revTRune)[0]
 		}
 	}
 

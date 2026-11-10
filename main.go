@@ -17,30 +17,10 @@ import (
 const (
 	fretSpacing   = 8
 	stringSpacing = 2
-
-	fretRune     = '│'
-	stringRune   = '─'
-	junctionRune = '┼'
-	tRune        = '┬'
-	revTRune     = '┴'
 )
 
 // ======================================================================================
-// Styles
-// ======================================================================================
-// var (
-// 	style           = tcell.StyleDefault.Foreground(tcell.ColorWhite)
-// 	scaleName       = tcell.StyleDefault.Foreground(tcell.ColorGreen)
-// 	stringStyle     = tcell.StyleDefault.Foreground(tcell.ColorSilver)
-// 	fretStyle       = tcell.StyleDefault.Foreground(tcell.ColorLightYellow)
-// 	matchStyle      = tcell.StyleDefault.Foreground(tcell.ColorDarkCyan)
-// 	matchSharpStyle = tcell.StyleDefault.Foreground(tcell.ColorRed)
-// 	inlayStyle      = tcell.StyleDefault.Foreground(tcell.ColorWhiteSmoke)
-// 	noteRune        = '⬤'
-// 	sharpRune       = '⬤'
-// 	inlayRune       = '◆'
-// )
-
+// Styles moved to opts package
 // ======================================================================================
 // Fretboard data
 // ======================================================================================
@@ -133,7 +113,7 @@ func main() {
 		//======================================================================================
 		for i := 0; i < frets; i++ {
 			for j := 0; j < boardHeight; j++ {
-				s.SetContent(x+i*fretSpacing, y+j, fretRune, nil, cfg.FretStyle)
+				s.SetContent(x+i*fretSpacing, y+j, cfg.FretRune, nil, cfg.FretStyle)
 			}
 		}
 
@@ -142,7 +122,7 @@ func main() {
 		//======================================================================================
 		for i := 0; i < str; i++ {
 			for j := 0; j < boardWidth; j++ {
-				s.SetContent(x+j, y+i*stringSpacing, stringRune, nil, cfg.StringStyle)
+				s.SetContent(x+j, y+i*stringSpacing, cfg.StringRune, nil, cfg.StringStyle)
 			}
 		}
 
@@ -154,12 +134,12 @@ func main() {
 				nx := x + i*fretSpacing
 				ny := y + j*stringSpacing
 
-				r := junctionRune
+				r := cfg.JunctionRune
 
 				if j == 0 {
-					r = tRune
+					r = cfg.TRune
 				} else if j == str-1 {
-					r = revTRune
+					r = cfg.RevTRune
 				}
 
 				s.SetContent(nx, ny, r, nil, cfg.FretStyle)
