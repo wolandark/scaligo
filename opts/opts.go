@@ -103,18 +103,6 @@ func ParseOpts() ([]string, string, Config) {
 	if *h_flag {
 		flag.Usage()
 		os.Exit(0)
-		// fmt.Println("Use ./scaligo to enter interactive visualizer")
-		// fmt.Println()
-		// fmt.Println("Flags:")
-		// fmt.Println("\t-l : list all known scales")
-		// fmt.Println("\t-a : list all known scales and their aliases (shortcuts in interactive mode)")
-		// fmt.Println("\t-s : use -s to start scaligo with a known scale. Example: <scaligo -s am>")
-		// fmt.Println("\t-h : this help menu")
-		// fmt.Println()
-		// fmt.Println("Quick Start:")
-		// fmt.Println("\tIn interactive mode, press any sequence from the -a flag to swtich scales")
-		// fmt.Println("\tPress <h> to read the help and follow along")
-		// return
 	}
 
 	if *a_flag {
@@ -127,7 +115,6 @@ func ParseOpts() ([]string, string, Config) {
 		}
 		fmt.Println()
 		os.Exit(0)
-		// return
 	}
 
 	if *l_flag {
@@ -139,7 +126,6 @@ func ParseOpts() ([]string, string, Config) {
 		}
 		fmt.Println()
 		os.Exit(0)
-		// return
 	}
 
 	scale, exists, title := scales.GetScale(*s_flag)
