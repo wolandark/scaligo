@@ -3,6 +3,8 @@ A tui guitar scale visualizer in go, using tcell.
 
 This project is a wip and is NOT ai assisted. In other words, this is not slop, and therefor it may take a long time to develop further.
 
+Latest Look:
+<img width="1273" height="557" alt="image" src="https://github.com/user-attachments/assets/07973b74-6255-4b02-83ca-59fecc898a34" />
 
 # Quick Start
 Download a version from releases for your OS
