@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
-
 	"scaligo/help"
 	"scaligo/keys"
 	"scaligo/opts"
+	"scaligo/tunings"
 	"slices"
+	"strconv"
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
@@ -73,7 +73,7 @@ func main() {
 		//======================================================================================
 		if termWidth < 105 || termHeight < 21 {
 			s.Fini()
-			fmt.Fprintf(os.Stderr, "Terminal Too Small! need 105x21, got %dx%d\n", termWidth, termHeight)
+			fmt.Fprintf(os.Stderr, "Terminal Too Small! Need 105x21, Got %dx%d\n", termWidth, termHeight)
 			os.Exit(1)
 		}
 		//======================================================================================
@@ -116,6 +116,15 @@ func main() {
 				s.SetContent(x+j, y+i*stringSpacing, cfg.StringRune, nil, cfg.StringStyle)
 			}
 		}
+		//======================================================================================
+		// draw tabs
+		//======================================================================================
+		for i := 0; i < str; i++ {
+			for j := 0; j < boardWidth; j++ {
+				s.SetContent(x+j, y+i*stringSpacing+15, cfg.StringRune, nil, cfg.StringStyle)
+			}
+		}
+
 		//======================================================================================
 		// junctions
 		//======================================================================================
@@ -190,6 +199,12 @@ func main() {
 				for i := 0; i < len(runes); i++ {
 					// s.SetContent(nx+i, ny, runes[i], nil, runeColor)
 					s.SetContent(nx+i, ny, r, nil, runeColor)
+				}
+
+				tab := tunings.Fretboard_e_tab[stringIndex][fretIndex]
+
+				for i := 0; i < len(tab); i++ {
+					s.SetContent(nx+i, ny+15, rune(tab[i]), nil, cfg.FretStyle)
 				}
 			}
 		}
