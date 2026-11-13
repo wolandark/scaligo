@@ -2,40 +2,28 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"github.com/gdamore/tcell/v2"
+	"scaligo/draw"
 	"scaligo/help"
 	"scaligo/keys"
 	"scaligo/opts"
-	"scaligo/tunings"
-	"slices"
-	"strconv"
-	"strings"
-
-	"github.com/gdamore/tcell/v2"
 )
 
-// ======================================================================================
-// Constants
-// ======================================================================================
+var (
+	scale, title, cfg = opts.ParseOpts()
+	frets             = len(cfg.Tuning[0])
+	str               = len(cfg.Tuning)
+)
+
 const (
 	fretSpacing   = 8
 	stringSpacing = 2
 )
 
-// ======================================================================================
-// Styles moved to opts package
-// ======================================================================================
-// Fretboard data moved to their own package
-// ======================================================================================
 func main() {
-	//======================================================================================
-	// flags
-	//======================================================================================
-	scale, title, cfg := opts.ParseOpts()
-
-	//======================================================================================
+	//==========================================================================================
 	// tcell screen
-	//======================================================================================
+	//==========================================================================================
 	s, err := tcell.NewScreen()
 	if err != nil {
 		fmt.Println(err)
@@ -48,172 +36,41 @@ func main() {
 	}
 	defer s.Fini()
 
-	//======================================================================================
+	//==========================================================================================
 	// main loop || game loop
-	//======================================================================================
+	//==========================================================================================
 	for {
 		s.Clear()
-
 		//======================================================================================
 		// Dimensions and positioning
 		//======================================================================================
 		termWidth, termHeight := s.Size()
-
-		frets := len(cfg.Tuning[0])
-		str := len(cfg.Tuning)
 
 		boardWidth := (frets - 1) * fretSpacing
 		boardHeight := (str-1)*stringSpacing + 1
 
 		x := (termWidth - boardWidth) / 2
 		y := (termHeight - boardHeight) / 2
-
 		//======================================================================================
 		// reject small terminal
 		//======================================================================================
-		if termWidth < 105 || termHeight < 21 {
-			s.Fini()
-			fmt.Fprintf(os.Stderr, "Terminal Too Small! Need 105x21, Got %dx%d\n", termWidth, termHeight)
-			os.Exit(1)
-		}
+		draw.RejectSmallTerm(termWidth, termHeight, s)
 		//======================================================================================
 		// draw loops
 		//======================================================================================
-		// draw inlays
-		//======================================================================================
-		inlays := []int{1, 3, 5, 7, 9, 12}
-		for fretIndex := 0; fretIndex < frets; fretIndex++ {
-			if slices.Contains(inlays, fretIndex) {
-				for j := 4; j < 6; j++ {
-					for i := 1; i < boardHeight-1; i++ {
-						s.SetContent(x+(fretIndex-1)*fretSpacing+fretSpacing/2, y+boardHeight/2, cfg.InlayRune, nil, cfg.InlayStyle)
-					}
-				}
-			}
-		}
-		//======================================================================================
-		// draw frets only
-		//======================================================================================
-		for i := 0; i < frets; i++ {
-			for j := 0; j < boardHeight; j++ {
-				s.SetContent(x+i*fretSpacing, y+j, cfg.FretRune, nil, cfg.FretStyle)
-			}
-		}
-		//======================================================================================
-		// draw frets numbers
-		//======================================================================================
-		for i := 1; i < frets; i++ {
-			num := strconv.Itoa(i)
-			for j := 0; j < len(num); j++ {
-				s.SetContent(x+i*fretSpacing+j-4, y+boardHeight+1, rune(num[j]), nil, cfg.FretStyle)
-			}
-		}
-		//======================================================================================
-		// draw strings only
-		//======================================================================================
-		for i := 0; i < str; i++ {
-			for j := 0; j < boardWidth; j++ {
-				s.SetContent(x+j, y+i*stringSpacing, cfg.StringRune, nil, cfg.StringStyle)
-			}
-		}
-		//======================================================================================
-		// draw tabs
-		//======================================================================================
-		for i := 0; i < str; i++ {
-			for j := 0; j < boardWidth; j++ {
-				s.SetContent(x+j, y+i*stringSpacing+15, cfg.StringRune, nil, cfg.StringStyle)
-			}
-		}
-
-		//======================================================================================
-		// junctions
-		//======================================================================================
-		for i := 0; i < frets; i++ {
-			for j := 0; j < str; j++ {
-				nx := x + i*fretSpacing
-				ny := y + j*stringSpacing
-
-				r := cfg.JunctionRune
-
-				if j == 0 {
-					r = cfg.TRune
-				} else if j == str-1 {
-					r = cfg.RevTRune
-				}
-
-				s.SetContent(nx, ny, r, nil, cfg.FretStyle)
-			}
-		}
-
-		//======================================================================================
-		// draw scale notes in abcd
-		//======================================================================================
-		offset := 0
-		title = strings.ReplaceAll(title, "_", " ")
-		for i := 0; i < len(title); i++ {
-			s.SetContent(x+i, y-5, rune(title[i]), nil, cfg.ScaleName)
-		}
-
-		for i := 0; i < len(scale); i++ {
-			for j := 0; j < len(scale[i]); j++ {
-				a := rune(scale[i][j])
-				s.SetContent(x+offset, y-3, a, nil, cfg.Style)
-				offset++
-			}
-			offset++
-		}
-
-		//======================================================================================
-		// draw notes on the fretboard
-		//======================================================================================
-		for stringIndex := 0; stringIndex < len(cfg.Tuning); stringIndex++ {
-			notes := cfg.Tuning[stringIndex]
-
-			for fretIndex := 0; fretIndex < len(notes); fretIndex++ {
-				note := notes[fretIndex]
-
-				if !slices.Contains(scale, note) {
-					continue
-				}
-
-				nx := x + fretIndex*fretSpacing
-				ny := y + stringIndex*stringSpacing
-
-				if fretIndex > 0 {
-					nx -= fretSpacing / 2
-				}
-
-				runes := []rune(note)
-				r := cfg.NoteRune
-				var runeColor = cfg.MatchStyle
-
-				if slices.Contains(runes, '#') {
-					r = cfg.SharpRune
-					runeColor = cfg.MatchSharpStyle
-				}
-				if len(runes) > 1 {
-					r = cfg.SharpRune
-					runes = runes[:1]
-				}
-
-				for i := 0; i < len(runes); i++ {
-					// s.SetContent(nx+i, ny, runes[i], nil, runeColor)
-					s.SetContent(nx+i, ny, r, nil, runeColor)
-				}
-
-				tab := tunings.Fretboard_e_tab[stringIndex][fretIndex]
-
-				for i := 0; i < len(tab); i++ {
-					s.SetContent(nx+i, ny+15, rune(tab[i]), nil, cfg.FretStyle)
-				}
-			}
-		}
-
+		draw.DrawInlays(s, x, y, boardHeight, cfg)
+		draw.DrawFrets(s, x, y, boardHeight, cfg)
+		draw.DrawFretNumbers(s, x, y, boardHeight, cfg)
+		draw.DrawStrings(s, x, y, boardWidth, stringSpacing, cfg)
+		draw.DrawTabs(s, x, y, boardWidth, stringSpacing, cfg)
+		draw.DrawJunctions(s, x, y, fretSpacing, stringSpacing, cfg)
+		draw.DrawScaleInAlphabet(s, x, y, scale, title, cfg)
+		draw.DrawNotesOnTheFretboard(s, x, y, scale, cfg)
 		help.ShowHelp(s, termWidth, termHeight)
-
 		s.Show()
-
+		//======================================================================================
 		// read keys
+		//======================================================================================
 		newScale, newTitle, toggleOverlay, toggleShortcuts, running := keys.ReadKeys(s)
 		if !running {
 			break
