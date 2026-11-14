@@ -4,7 +4,8 @@ A tui guitar scale visualizer in go, using tcell.
 This project is a wip and is NOT ai assisted. In other words, this is not slop, and therefor it may take a long time to develop further.
 
 Latest Look:
-<img width="1273" height="557" alt="image" src="https://github.com/user-attachments/assets/07973b74-6255-4b02-83ca-59fecc898a34" />
+<!-- <img width="1273" height="557" alt="image" src="https://github.com/user-attachments/assets/07973b74-6255-4b02-83ca-59fecc898a34" /> -->
+<img width="1273" height="786" alt="image" src="https://github.com/user-attachments/assets/f810c2ed-1540-4e5c-8209-c05b6b7ba59a" />
 
 # Quick Start
 Download a version from releases for your OS
@@ -132,7 +133,7 @@ Press `s` to get the shortcuts overlay
 <img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/20ceff32-fe0c-4bbc-9a9b-0e3e5c2a8ae1" />
 
 # Roadmap
-- [ ] Add scale tablature below the fretboard
+- [x] Add scale tablature below the fretboard
 	- [ ] Add vertical. diagonal and positions 
 - [ ] Use sox or something to listen to the scales
 - [ ] Add Arpeggios and Chord support
